@@ -1,5 +1,5 @@
 import numpy as np
-import graphdata as gd
+from loc import graphdata as gd
 
 np.set_printoptions(suppress=True)
 

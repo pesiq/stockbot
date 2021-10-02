@@ -1,6 +1,6 @@
-import buldgraph as bg
+from utils import buldgraph as bg
 import funcanalysis as fa
-import graphdata as gd
+from loc import graphdata as gd
 
 
 def simulateBites(time_axis, sma7, sma25):

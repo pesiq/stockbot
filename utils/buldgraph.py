@@ -1,5 +1,5 @@
 from matplotlib import pyplot as plt
-import graphdata as gd
+
 
 
 def plot(time_axis, values_SMA_7, values_SMA_25):
@@ -16,4 +16,6 @@ def plot(time_axis, values_SMA_7, values_SMA_25):
 
 
 if __name__ == '__main__':
+    from loc import graphdata as gd
+
     plot(gd.time_axis, gd.values_SMA_7, gd.values_SMA_25)
