@@ -1,3 +1,4 @@
+import csv
 import json
 import time
 import asyncio
@@ -11,11 +12,19 @@ uri = URIs.websocketURI
 
 async def main():
     try:
-        async with websockets.connect(uri) as client:
-            print(f'Connecting to {uri}')
-            while True:
-                data = json.loads(await client.recv())
-                su.responseParse(data)
+        with open(f'{su.WORK_DIR}/output/kline.csv', "w", newline='') as kline, \
+                open(f'{su.WORK_DIR}/output/graph.csv', "w", newline='') as graph:
+            kf = csv.writer(kline, dialect='excel')
+            gf = csv.writer(graph, dialect='excel')
+            async with websockets.connect(uri) as client:
+                print(f'Connecting to {uri}')
+                while True:
+                    data = json.loads(await client.recv())
+                    parsed = su.responseParse(data)
+                    if parsed:
+                        gf.writerow([*parsed[0:2], *parsed[2]])
+                        kf.writerow([*parsed[0:2], *parsed[3]])
+                        print('Logged')
     except ConnectionAbortedError as e:
         print(f'Connection aborted with {uri}')
         print(e)
@@ -29,6 +38,10 @@ async def main():
         print(e)
     except StopAsyncIteration as e:
         print('Async function was terminated')
+        print(e)
+    except KeyboardInterrupt as e:
+        print('Interrupted by user')
+        print('Finishing up...')
         print(e)
     except Exception as e:
         print('Unknown error')

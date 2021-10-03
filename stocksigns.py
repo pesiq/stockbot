@@ -9,4 +9,4 @@ against = 'usdt'
 importedSymbolList = [s + against for s in symbols]
 
 if __name__ == '__main__':
-    print(importedSymbolList)
+    print(len(importedSymbolList))
