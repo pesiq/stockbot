@@ -1,6 +1,9 @@
-from utils import buldgraph as bg
+import sys
+
 import funcanalysis as fa
-from loc import graphdata as gd
+from utils import buldgraph as bg
+
+MAIN_DIR = '/'.join(sys.argv[0].split('/')[:-2])
 
 
 def simulateBites(time_axis, sma7, sma25):
@@ -22,5 +25,7 @@ def simulateBites(time_axis, sma7, sma25):
             temp25.clear()
 
 
+piss = [2, 5, 435, 34, 52, 4, 23, 34, 5, 36, 4, 2, 42, 3, 55345, 634, 43, 523, ]
+
 if __name__ == '__main__':
-    simulateBites(gd.time_axis, gd.values_SMA_7, gd.values_SMA_25)
+    print(MAIN_DIR)

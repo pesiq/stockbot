@@ -1,7 +1,6 @@
 from matplotlib import pyplot as plt
 
 
-
 def plot(time_axis, values_SMA_7, values_SMA_25):
     plt.figure(1, figsize=[19, 8])
     plt.plot(time_axis, values_SMA_7, label="SMA 7")

@@ -1,6 +1,7 @@
 import csv
 import time
-import statUtils as su
+
+from utils import stat_utils as su
 
 # constants
 SUBFOLDER = '\sorted'
@@ -37,8 +38,8 @@ def sortRaw(name):
                 writer.writerow(line)
             elapsed_time = time.time() - start_time
             ftime = time.strftime("%H:%M:%S", time.gmtime(elapsed_time))
-            su.printProgressBar(i, total_lines, f'Currently on line {i} out of {total_lines}', f'Complete. Elapsed '
-                                                                                               f'time: {ftime}',
+            su.printProgressBar(i + 2, total_lines, f'Currently on line {i} out of {total_lines}', f'Complete. Elapsed '
+                                                                                                   f'time: {ftime}',
                                 length=25)
     return len(created)
 

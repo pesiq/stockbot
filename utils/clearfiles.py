@@ -1,5 +1,6 @@
-from statUtils import WORK_DIR
 import csv
+
+from utils.stat_utils import WORK_DIR
 
 KLINE_HEADER = ['Sign', 'Time', 'Open time', 'Close time', 'Open', 'Close', 'Low', 'High']
 GRAPH_HEADER = ['Sign', 'Time', 'Price', 'Number of trades', 'Base asset volume', 'Quote asset volume']

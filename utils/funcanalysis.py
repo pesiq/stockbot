@@ -1,4 +1,5 @@
 import numpy as np
+
 from loc import graphdata as gd
 
 np.set_printoptions(suppress=True)
@@ -38,7 +39,7 @@ def dist(l1, l2):
     result = []
     for pair in zip(l1, l2):
         a, b = pair
-        result.append(abs(a-b))
+        result.append(abs(a - b))
     return result
 
 
@@ -50,7 +51,7 @@ def analyse(line1, line2, time):
     for d1, d2, dis, time in zip(delta1, delta2, distance, time):
         if areIncreasingSegments(line1, line2) and not areIntersecting(line1, line2):
             if areIncreasingDeltas(d1, d2):
-                if (dis > 0) and (dis < maxDelta) and (abs(d1-d2) < maxGrowthDelta):
+                if (dis > 0) and (dis < maxDelta) and (abs(d1 - d2) < maxGrowthDelta):
                     result.append(time)
     return result
 
