@@ -1,6 +1,5 @@
 import asyncio
 import csv
-import json
 
 import websockets
 
@@ -10,7 +9,7 @@ from URI import WS_URI
 uri = WS_URI.websocketURI
 
 
-async def main():
+async def getLiveKlines():
     try:
         with open(f'{su.WORK_DIR}/output/kline.csv', "w", newline='') as kline, \
                 open(f'{su.WORK_DIR}/output/graph.csv', "w", newline='') as graph:
@@ -19,8 +18,7 @@ async def main():
             async with websockets.connect(uri) as client:
                 print(f'Connecting to {uri}')
                 while True:
-                    data = json.loads(await client.recv())
-                    parsed = su.responseParse(data)
+                    parsed = su.parseResponseWS(await client.recv())
                     if parsed:
                         gf.writerow([*parsed[0:2], *parsed[2]])
                         kf.writerow([*parsed[0:2], *parsed[3]])

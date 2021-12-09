@@ -1,63 +1,12 @@
 import os
 import sys
+import json
 
-import numpy as np
-
-WORK_DIR = '/'.join(sys.argv[0].split('/')[:-2])
-
-time_axis = []
-values_kline = []
-values_kline_close = []
-values_kline_open = []
-values_kline_high = []
-values_kline_low = []
-values_SMA_7 = []
-values_SMA_25 = []
-values_SMA_99 = []
-
-
-def log_kline():
-    print(f'{time_axis = }')
-    print(f'{values_kline_open = }')
-    print(f'{values_kline_close = }')
-    print(f'{values_kline_high = }')
-    print(f'{values_kline_low = }')
-    print(f'{values_SMA_7 = }')
-    print(f'{values_SMA_25 = }')
-    print(f'{values_SMA_99 = }')
-
-
-def updateSMA():
-    if len(values_kline) > 7:
-        accumulator = 0.0
-        for i in range(-1, -8, -1):
-            accumulator += values_kline_close[i]
-        accumulator /= 7
-        values_SMA_7.append(accumulator)
-    else:
-        values_SMA_7.append(np.nan)
-
-    if len(values_kline) > 25:
-        accumulator = 0.0
-        for i in range(-1, -26, -1):
-            accumulator += values_kline_close[i]
-        accumulator /= 25
-        values_SMA_25.append(accumulator)
-    else:
-        values_SMA_25.append(np.nan)
-
-    if len(values_kline) > 99:
-        accumulator = 0.0
-        for i in range(-1, -100, -1):
-            accumulator += values_kline_close[i]
-        accumulator /= 99
-        values_SMA_99.append(accumulator)
-    else:
-        values_SMA_99.append(np.nan)
+WORK_DIR = '/'.join(sys.argv[0].split('/')[:-1])
 
 
 # Print iterations progress
-def printProgressBar(iteration, total, prefix='', suffix='', decimals=1, length=100, fill='█', printEnd="\r"):
+def printProgressBar(iteration, total, prefix='', suffix='', decimals=1, length=20, fill='█', printEnd="\r"):
     """
     Call in a loop to create terminal progress bar
     @params:
@@ -90,13 +39,14 @@ def createFolder(name):
 
 
 #
-def responseParse(data):
+def parseResponseWS(raw):
     """
     Compiles response into an object and calls for further action
     ['symbol', 'timestamp', 'point: bool',
     graphvars: [closing_price, volume, ],
     klinevars: [open, close, high, low]]
     """
+    data = json.loads(raw)
     body = data['data']['k']  # shortcut to body of json
     isClosed: bool = body['x']  # turns to true when cline closes
     if isClosed:
@@ -123,3 +73,19 @@ def responseParse(data):
     else:
         result = []
     return result
+
+
+def parseResponseREST(data):
+    """
+    Parses REST API json response into a list
+    does not return SYMBOL name, should acknowledged in context
+    :param data: raw json data
+    :return: list [open time, open, high, low, close, volume, close time]
+    """
+    klines = json.loads(data.text)
+    res = []
+    time = 0
+    for kline in klines:
+        res.append(list(map(float, kline[1:6])))
+        time = int(kline[6])
+    return res, time

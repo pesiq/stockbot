@@ -4,7 +4,7 @@ PERIOD = ['_1m', '_3m', '_5m', '_15m', '_30m', '_1h', '_2h', '_4h', '_6h', '_8h'
 
 AGAINST = 'usdt'
 
-DEBUG = ['btcusdt']
+DEBUG = "btcusdt"
 SYMBOLS = ['ethbull', 'wbtc', 'fildown', 'dego', 'btcup', 'bot', 'band', 'wan', 'c98', 'req', 'ctxc', 'hbar', 'vet',
            'mkr', 'ark', 'pols', 'tnb', 'utk', 'adaup', 'sol', 'mdt', 'eng', 'steem', 'tko', 'eosbull', 'xtzup', 'psg',
            'salt', 'front', 'tusd', 'gtc', 'comp', 'chz', 'cnd', 'firo', 'bull', 'mdx', 'inj', 'om', 'bcha', 'bzrx',

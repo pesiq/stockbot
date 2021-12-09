@@ -1,29 +1,30 @@
-import websockets
+import requests
 
-from URI import WS_URI
+from URI import REST_URI
+from URI.stocksigns import DEBUG
+from utils import parseResponseREST
 
-uri = WS_URI.websocketURI
+uri = REST_URI.RESTURI
+
+LIMIT = 100
+START = 1502928000
 
 
-async def main():
+def getKlines(symbol=DEBUG.upper(), timestamp=None, interval="1h", limit=LIMIT):
     try:
-            async with websockets.connect(uri) as client:
-                print(f'Connecting to {uri}')
+        params = dict(symbol=symbol,
+                      limit=limit,
+                      interval=interval)
+        if timestamp is not None:
+            params['startTime'] = timestamp
+        r = requests.get(uri, params=params)
+        return parseResponseREST(r)
 
-
-    except ConnectionAbortedError as e:
-        print(f'Connection aborted with {uri}')
-        print(e)
-    except ConnectionRefusedError as e:
-        print('Connection refused')
-        print(f'Host uri: {uri}')
-        print(e)
     except ConnectionError as e:
-        print('Connection timed out')
-        print(f'Host uri: {uri}')
+        print('Network problem')
         print(e)
-    except StopAsyncIteration as e:
-        print('Async function was terminated')
+    except TimeoutError as e:
+        print('Request timed out')
         print(e)
     except KeyboardInterrupt as e:
         print('Interrupted by user')
@@ -34,6 +35,5 @@ async def main():
         print(e)
 
 
-
 if __name__ == '__main__':
-    pass
+    getKlines()

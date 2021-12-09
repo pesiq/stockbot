@@ -1,1 +1,1 @@
-from stat_utils import printProgressBar
+from .stat_utils import *
