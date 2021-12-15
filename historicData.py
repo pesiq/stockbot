@@ -18,7 +18,10 @@ def getKlines(symbol=DEBUG.upper(), timestamp=None, interval="1h", limit=LIMIT):
         if timestamp is not None:
             params['startTime'] = timestamp
         r = requests.get(uri, params=params)
-        return parseResponseREST(r)
+        if r.status_code == 200:
+            return parseResponseREST(r)
+        else:
+            return symbol, 0
 
     except ConnectionError as e:
         print('Network problem')
@@ -30,6 +33,7 @@ def getKlines(symbol=DEBUG.upper(), timestamp=None, interval="1h", limit=LIMIT):
         print('Interrupted by user')
         print('Finishing up...')
         print(e)
+        exit(-1)
     except Exception as e:
         print('Unknown error')
         print(e)

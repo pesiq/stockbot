@@ -1,4 +1,4 @@
-import stocksigns as ss
+from URI import stocksigns as ss
 
 
 def getStreamList(par):
